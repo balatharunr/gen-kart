@@ -14,6 +14,7 @@ export default function Home() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalTab, setAuthModalTab] = useState('signin');
   const [isMobileProfileOpen, setIsMobileProfileOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('home'); // 'home' or 'jersey'
 
   const { user, loading, signInWithGoogle, signOut } = useAuth();
 
@@ -48,6 +49,15 @@ export default function Home() {
     setIsMobileProfileOpen(false);
   };
 
+  const handleJerseyClick = () => {
+    setActiveSection('jersey');
+    setIsMobileMenuOpen(false); // Close mobile menu if open
+  };
+
+  const handleHomeClick = () => {
+    setActiveSection('home');
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
 
@@ -57,14 +67,18 @@ export default function Home() {
       }`}>
         {/* Navigation Items */}
         <div className="flex flex-col space-y-8 mt-32">
-          {/* Gifts */}
-          <div className="flex flex-col items-center group cursor-pointer">
+          {/* Jersey */}
+          <div className="flex flex-col items-center group cursor-pointer" onClick={handleJerseyClick}>
             <div className="p-3 rounded-lg hover:bg-gray-100 transition-colors">
-              <svg className="w-6 h-6 text-gray-600 group-hover:text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
-              </svg>
+              <Image
+                src="/images/jersey.svg"
+                alt="Jersey"
+                width={36}
+                height={36}
+                className="w-10 h-10 text-gray-600 group-hover:text-red-600"
+              />
             </div>
-            <span className="text-xs text-gray-600 group-hover:text-red-600 mt-1">Gifts</span>
+            <span className="text-xs text-gray-600 group-hover:text-red-600 mt-1">Jersey</span>
           </div>
 
           {/* Trending */}
@@ -120,8 +134,9 @@ export default function Home() {
                 alt="Genkart Logo"
                 width={240}
                 height={80}
-                className="h-10 w-auto lg:h-25 lg:w-auto"
+                className="h-10 w-auto lg:h-25 lg:w-auto cursor-pointer"
                 priority
+                onClick={handleHomeClick}
             />
           </h2>
           <button onClick={toggleMobileMenu} className="p-2 hover:bg-gray-100 rounded">
@@ -131,11 +146,15 @@ export default function Home() {
           </button>
         </div>
         <div className="p-4 space-y-4">
-          <div className="flex items-center space-x-3 p-3 hover:bg-gray-100 rounded-lg cursor-pointer">
-            <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
-            </svg>
-            <span className="text-gray-700">Gifts</span>
+          <div className="flex items-center space-x-3 p-3 hover:bg-gray-100 rounded-lg cursor-pointer" onClick={handleJerseyClick}>
+            <Image
+              src="/images/jersey.svg"
+              alt="Jersey"
+              width={24}
+              height={24}
+              className="w-6 h-6 text-gray-600"
+            />
+            <span className="text-gray-700">Jersey</span>
           </div>
           <div className="flex items-center space-x-3 p-3 hover:bg-gray-100 rounded-lg cursor-pointer">
             <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -234,8 +253,9 @@ export default function Home() {
                 alt="Genkart Logo"
                 width={240}
                 height={80}
-                className="h-10 w-auto lg:h-25 lg:w-auto"
+                className="h-10 w-auto lg:h-25 lg:w-auto cursor-pointer"
                 priority
+                onClick={handleHomeClick}
               />
             </div>
 
@@ -489,6 +509,159 @@ export default function Home() {
 
       {/* Marquee Banner */}
       <Marquee />
+
+      {/* Jersey Products Section */}
+      {activeSection === 'jersey' && (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6">
+            {/* Create New Design Box */}
+            <div className="bg-white border-2 border-dashed border-gray-300 rounded-lg p-6 flex flex-col items-center justify-center hover:border-blue-500 hover:bg-blue-50 transition-all cursor-pointer group aspect-[3/4]">
+              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-3 group-hover:bg-blue-200 transition-colors">
+                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                </svg>
+              </div>
+              <h3 className="text-sm font-medium text-gray-900 text-center mb-1">Create New</h3>
+              <p className="text-xs text-gray-500 text-center">Design your jersey</p>
+            </div>
+
+            {/* Jersey Product 1 */}
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow cursor-pointer group">
+              <div className="aspect-[3/4] bg-gradient-to-br from-red-500 to-red-700 relative overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-white text-center">
+                    <div className="text-2xl font-bold mb-1">23</div>
+                    <div className="text-xs">PLAYER</div>
+                  </div>
+                </div>
+                <div className="absolute top-2 right-2 bg-white rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <svg className="w-4 h-4 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
+                  </svg>
+                </div>
+              </div>
+              <div className="p-3">
+                <h3 className="text-sm font-medium text-gray-900 truncate">Red Sports Jersey</h3>
+                <p className="text-xs text-gray-500 mt-1">Custom Design</p>
+                <div className="flex items-center justify-between mt-2">
+                  <span className="text-sm font-bold text-gray-900">₹1,299</span>
+                  <span className="text-xs text-gray-500 line-through">₹1,599</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Jersey Product 2 */}
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow cursor-pointer group">
+              <div className="aspect-[3/4] bg-gradient-to-br from-blue-500 to-blue-700 relative overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-white text-center">
+                    <div className="text-2xl font-bold mb-1">10</div>
+                    <div className="text-xs">STAR</div>
+                  </div>
+                </div>
+                <div className="absolute top-2 right-2 bg-white rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <svg className="w-4 h-4 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
+                  </svg>
+                </div>
+              </div>
+              <div className="p-3">
+                <h3 className="text-sm font-medium text-gray-900 truncate">Blue Team Jersey</h3>
+                <p className="text-xs text-gray-500 mt-1">Premium Quality</p>
+                <div className="flex items-center justify-between mt-2">
+                  <span className="text-sm font-bold text-gray-900">₹1,499</span>
+                  <span className="text-xs text-gray-500 line-through">₹1,799</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Jersey Product 3 */}
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow cursor-pointer group">
+              <div className="aspect-[3/4] bg-gradient-to-br from-green-500 to-green-700 relative overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-white text-center">
+                    <div className="text-2xl font-bold mb-1">7</div>
+                    <div className="text-xs">CHAMPION</div>
+                  </div>
+                </div>
+                <div className="absolute top-2 right-2 bg-white rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <svg className="w-4 h-4 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
+                  </svg>
+                </div>
+              </div>
+              <div className="p-3">
+                <h3 className="text-sm font-medium text-gray-900 truncate">Green Elite Jersey</h3>
+                <p className="text-xs text-gray-500 mt-1">Limited Edition</p>
+                <div className="flex items-center justify-between mt-2">
+                  <span className="text-sm font-bold text-gray-900">₹1,699</span>
+                  <span className="text-xs text-gray-500 line-through">₹1,999</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Jersey Product 4 */}
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow cursor-pointer group">
+              <div className="aspect-[3/4] bg-gradient-to-br from-purple-500 to-purple-700 relative overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-white text-center">
+                    <div className="text-2xl font-bold mb-1">99</div>
+                    <div className="text-xs">LEGEND</div>
+                  </div>
+                </div>
+                <div className="absolute top-2 right-2 bg-white rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <svg className="w-4 h-4 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
+                  </svg>
+                </div>
+              </div>
+              <div className="p-3">
+                <h3 className="text-sm font-medium text-gray-900 truncate">Purple Pro Jersey</h3>
+                <p className="text-xs text-gray-500 mt-1">Professional Grade</p>
+                <div className="flex items-center justify-between mt-2">
+                  <span className="text-sm font-bold text-gray-900">₹1,899</span>
+                  <span className="text-xs text-gray-500 line-through">₹2,199</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Jersey Product 5 */}
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow cursor-pointer group">
+              <div className="aspect-[3/4] bg-gradient-to-br from-orange-500 to-orange-700 relative overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-white text-center">
+                    <div className="text-2xl font-bold mb-1">1</div>
+                    <div className="text-xs">MVP</div>
+                  </div>
+                </div>
+                <div className="absolute top-2 right-2 bg-white rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <svg className="w-4 h-4 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
+                  </svg>
+                </div>
+              </div>
+              <div className="p-3">
+                <h3 className="text-sm font-medium text-gray-900 truncate">Orange Victory Jersey</h3>
+                <p className="text-xs text-gray-500 mt-1">Championship Edition</p>
+                <div className="flex items-center justify-between mt-2">
+                  <span className="text-sm font-bold text-gray-900">₹2,099</span>
+                  <span className="text-xs text-gray-500 line-through">₹2,499</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Home Content - Only shown when activeSection is 'home' */}
+      {activeSection === 'home' && (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">Welcome to GenKart</h1>
+            <p className="text-lg text-gray-600">Your Digital Marketplace for Custom Designs</p>
+          </div>
+        </div>
+      )}
       </div>
 
       {/* Auth Modal */}
