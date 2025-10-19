@@ -1,12 +1,12 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from 'react';
-import { 
-  onAuthStateChanged, 
-  signInWithPopup, 
+import {
+  onAuthStateChanged,
+  signInWithPopup,
   signOut as firebaseSignOut
 } from 'firebase/auth';
-import { auth, googleProvider } from '@/lib/firebase';
+import { getFirebaseAuth, googleProvider } from '@/lib/firebase';
 
 const AuthContext = createContext({});
 
@@ -21,10 +21,20 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [authInstance, setAuthInstance] = useState(null);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
+    const instance = getFirebaseAuth();
+    setAuthInstance(instance);
+
+    if (!instance) {
+      setLoading(false);
+      console.warn('Firebase auth is not available. Skipping auth state listener.');
+      return () => {};
+    }
+
+    const unsubscribe = onAuthStateChanged(instance, (currentUser) => {
+      setUser(currentUser);
       setLoading(false);
     });
 
@@ -33,8 +43,11 @@ export const AuthProvider = ({ children }) => {
 
   // Sign in with Google
   const signInWithGoogle = async () => {
+    if (!authInstance) {
+      return { user: null, error: 'Authentication is not initialized. Please check your Firebase configuration.' };
+    }
     try {
-      const result = await signInWithPopup(auth, googleProvider);
+      const result = await signInWithPopup(authInstance, googleProvider);
       return { user: result.user, error: null };
     } catch (error) {
       return { user: null, error: error.message };
@@ -43,8 +56,11 @@ export const AuthProvider = ({ children }) => {
 
   // Sign out
   const signOut = async () => {
+    if (!authInstance) {
+      return { error: 'Authentication is not initialized. Please check your Firebase configuration.' };
+    }
     try {
-      await firebaseSignOut(auth);
+      await firebaseSignOut(authInstance);
       return { error: null };
     } catch (error) {
       return { error: error.message };
