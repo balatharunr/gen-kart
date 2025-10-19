@@ -167,7 +167,6 @@ export default function Home() {
           ) : user ? (
             <div className="text-center">
               <p className="text-gray-700 mb-2">Welcome, {user.displayName || 'User'}!</p>
-              <UserMenu />
             </div>
           ) : (
             <button 
@@ -313,7 +312,7 @@ export default function Home() {
                   alt="Cart"
                   width={48}
                   height={48}
-                  className="h-6 w-6 lg:h-12 lg:w-12"
+                  className="h-8 w-8 lg:h-12 lg:w-12"
                 />
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-4 w-4 lg:h-6 lg:w-6 flex items-center justify-center">
                   0
@@ -325,7 +324,7 @@ export default function Home() {
                 <div className="lg:hidden relative">
                   <button
                     onClick={() => setIsMobileProfileOpen(!isMobileProfileOpen)}
-                    className="flex items-center p-1 rounded-full hover:bg-gray-100 transition-colors"
+                    className="flex items-center space-x-1 p-1 rounded-full hover:bg-gray-100 transition-colors"
                   >
                     {user.photoURL ? (
                       <img
@@ -340,6 +339,15 @@ export default function Home() {
                         </span>
                       </div>
                     )}
+                    {/* Dropdown Arrow */}
+                    <svg 
+                      className={`w-3 h-3 text-gray-600 transition-transform ${isMobileProfileOpen ? 'rotate-180' : ''}`} 
+                      fill="none" 
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
                   </button>
 
                   {/* Mobile Profile Dropdown */}
