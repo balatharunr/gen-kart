@@ -6,7 +6,7 @@ import {
   signInWithPopup,
   signOut as firebaseSignOut
 } from 'firebase/auth';
-import { getFirebaseAuth, googleProvider } from '@/lib/firebase';
+import { getFirebaseAuth, getGoogleProvider } from '@/lib/firebase';
 
 const AuthContext = createContext({});
 
@@ -46,8 +46,14 @@ export const AuthProvider = ({ children }) => {
     if (!authInstance) {
       return { user: null, error: 'Authentication is not initialized. Please check your Firebase configuration.' };
     }
+    
+    const provider = getGoogleProvider();
+    if (!provider) {
+      return { user: null, error: 'Google provider is not available.' };
+    }
+    
     try {
-      const result = await signInWithPopup(authInstance, googleProvider);
+      const result = await signInWithPopup(authInstance, provider);
       return { user: result.user, error: null };
     } catch (error) {
       return { user: null, error: error.message };
