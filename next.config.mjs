@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  turbo: {
-    root: '.'
-  }
+  // Configuration options go here
 };
 
 export default nextConfig;
