@@ -6,6 +6,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import AuthModal from "@/components/AuthModal";
 import UserMenu from "@/components/UserMenu";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import Marquee from "@/components/Marquee";
 
 export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -485,6 +486,9 @@ export default function Home() {
           </div>
         </div>
       </nav>
+
+      {/* Marquee Banner */}
+      <Marquee />
       </div>
 
       {/* Auth Modal */}
